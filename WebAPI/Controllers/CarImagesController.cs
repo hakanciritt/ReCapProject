@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
+using Core.Utilities.FileHelper;
 
 namespace WebAPI.Controllers
 {
@@ -15,6 +16,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CarImagesController : ControllerBase
     {
+
         private readonly ICarImageService _carImageService;
         private readonly IWebHostEnvironment _environment;
         public CarImagesController(ICarImageService carImageService, IWebHostEnvironment webHostEnvironment)
@@ -25,6 +27,7 @@ namespace WebAPI.Controllers
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
+            
             var result = _carImageService.GetAll();
             if (result.Success)
             {
@@ -45,28 +48,13 @@ namespace WebAPI.Controllers
         [HttpPost("add")]
         public IActionResult Add([FromForm(Name = ("Image"))] IFormFile file, [FromForm] CarImage carImage)
         {
-            string path = _environment.WebRootPath + "\\Images\\";
-            var newGuidPath = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            using (FileStream fileStream = System.IO.File.Create(path + newGuidPath))
-            {
-                file.CopyTo(fileStream);
-                fileStream.Flush();
-            }
-            if (file==null)
-            {
-                carImage.ImagePath = path + "default.png";
-            }
-
+            string path = _environment.WebRootPath + "\\Images";
+            var guidPath = FileHelper.Add(file, path);
             var result = _carImageService.Add(new CarImage
             {
                 CarId = carImage.CarId,
                 Date = DateTime.Now,
-                ImagePath = newGuidPath
+                ImagePath = guidPath
             });
 
             if (result.Success)
@@ -78,8 +66,8 @@ namespace WebAPI.Controllers
         [HttpPost("delete")]
         public IActionResult Delete(CarImage carImage)
         {
-            string path = _environment.WebRootPath + "\\Images\\";
-            System.IO.File.Delete(path + carImage.ImagePath);
+            string path = _environment.WebRootPath + "\\Images";
+            FileHelper.Delete(path + "\\" + carImage.ImagePath);
 
             var result = _carImageService.Delete(carImage);
             if (result.Success)
@@ -91,17 +79,13 @@ namespace WebAPI.Controllers
         [HttpPost("update")]
         public IActionResult Update([FromForm] CarImage carImage, [FromForm(Name = ("Image"))] IFormFile file)
         {
-            string path = _environment.WebRootPath + "\\Images\\";
-            string updateImagePath = Path.Combine(path, carImage.ImagePath);
-            string newGuid = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            string path = _environment.WebRootPath + "\\Images";
 
-            var newGuidPath = Path.Combine(path, newGuid);
-            System.IO.File.Move(updateImagePath, newGuidPath);
+            string newGuid = FileHelper.Update(file, path, carImage.ImagePath);
 
             carImage.ImagePath = newGuid;
             carImage.Date = DateTime.Now;
             var result = _carImageService.Update(carImage);
-            
 
             if (result.Success)
             {
