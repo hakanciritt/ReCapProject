@@ -9,5 +9,6 @@ namespace Business.Constants
         public const string Added = "Eklendi";
         public const string Deleted = "Silindi";
         public const string Updated = "Güncellendi";
+        public const string ImageInsertionLimitExceeded = "Resim yükleme sınırı aşıldı";
     }
 }
