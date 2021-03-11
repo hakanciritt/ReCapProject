@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Entities.Concrete;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -40,9 +41,9 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
         [HttpPost("getbyid")]
-        public IActionResult GetById(int id)
+        public IActionResult GetById(string email)
         {
-            var result = _userService.GetById(id);
+            var result = _userService.GetByMail(email);
             if (result.Success)
             {
                 return Ok(result);

@@ -62,9 +62,9 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Updated);
         }
 
-        public IDataResult<List<CarDetailsDto>> CarDetails()
+        public IDataResult<List<CarDetailDto>> CarDetails()
         {
-            return new SuccessDataResult<List<CarDetailsDto>>(_carDal.CarDetails());
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.CarDetails());
         }
     }
 }
