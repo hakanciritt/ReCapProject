@@ -5,6 +5,7 @@ using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace DataAccess.Concrete.EntityFramework
@@ -23,6 +24,7 @@ namespace DataAccess.Concrete.EntityFramework
                               on car.ColorId equals col.Id
                               select new CarDetailDto
                               {
+                                  Id = brand.Id,
                                   CarName = brand.Name,
                                   BrandName = brand.Name,
                                   ColorName = col.Name,
@@ -33,6 +35,30 @@ namespace DataAccess.Concrete.EntityFramework
                 return result;
             }
 
+        }
+
+        public List<CarDetailDto> GetCarDetails(Expression<Func<CarDetailDto, bool>> filter = null)
+        {
+            using (CarContext context = new CarContext())
+            {
+                // CarName, BrandName, ColorName, DailyPrice
+                var result = (from car in context.Cars.Cast<Car>()
+                              join brand in context.Brands
+                              on car.BrandId equals brand.Id
+                              join col in context.Colors
+                              on car.ColorId equals col.Id
+                              select new CarDetailDto
+                              {
+                                  Id = brand.Id,
+                                  CarName = brand.Name,
+                                  BrandName = brand.Name,
+                                  ColorName = col.Name,
+                                  DailyPrice = car.DailyPrice
+
+                              }).Where(filter).ToList();
+
+                return result;
+            }
         }
     }
 }

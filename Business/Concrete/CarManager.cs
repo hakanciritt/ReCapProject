@@ -25,20 +25,17 @@ namespace Business.Concrete
         {
             _carDal.Add(car);
             return new SuccessResult(Messages.Added);
-
         }
 
         public IResult Delete(Car car)
         {
             _carDal.Delete(car);
             return new SuccessResult(Messages.Deleted);
-
         }
 
         public IDataResult<Car> GetById(int carId)
         {
             return new SuccessDataResult<Car>(_carDal.Get(x => x.Id == carId));
-
         }
 
         public IDataResult<List<Car>> GetAll()
@@ -65,6 +62,11 @@ namespace Business.Concrete
         public IDataResult<List<CarDetailDto>> CarDetails()
         {
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.CarDetails());
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetails(int id,string colorName)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(x => x.Id == id || x.ColorName==colorName));
         }
     }
 }
