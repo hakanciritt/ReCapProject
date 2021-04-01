@@ -20,12 +20,12 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
-        [SecuredOperation("Brand.add,admin")]
+        //[SecuredOperation("Brand.add,admin")]
         [ValidationAspect(typeof(BrandValidator))]
         public IResult Add(Brand brand)
         {
             _brandDal.Add(brand);
-            return new SuccessResult(Messages.Added);
+            return new SuccessResult(Messages.BrandAdded);
         }
 
         public IResult Delete(Brand brand)

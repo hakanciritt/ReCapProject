@@ -1,4 +1,5 @@
 using Autofac.Extensions.DependencyInjection;
+using Core.Extensions;
 using Core.IoC;
 using Core.Utilities.Security.Encryption;
 using Core.Utilities.Security.JWT;
@@ -65,7 +66,10 @@ namespace WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyOrigin());
+            app.ConfigureCustomExceptionMiddleware();
+
+            app.UseStaticFiles();
+            app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
 
             app.UseHttpsRedirection();
 

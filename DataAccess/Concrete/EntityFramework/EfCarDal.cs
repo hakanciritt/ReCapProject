@@ -22,13 +22,20 @@ namespace DataAccess.Concrete.EntityFramework
                               on car.BrandId equals brand.Id
                               join col in context.Colors
                               on car.ColorId equals col.Id
+                              join carImage in context.CarImages
+                              on car.Id equals carImage.CarId
                               select new CarDetailDto
                               {
-                                  Id = brand.Id,
-                                  CarName = brand.Name,
+                                  Id = car.Id,
+                                  CarName = car.CarName,
                                   BrandName = brand.Name,
+                                  BrandId = brand.Id,
                                   ColorName = col.Name,
-                                  DailyPrice = car.DailyPrice
+                                  ColorId = col.Id,
+                                  DailyPrice = car.DailyPrice,
+                                  ModelYear = car.ModelYear,
+                                  Description = car.Description,
+                                  ImagePath = carImage.ImagePath
 
                               }).ToList();
 
@@ -47,15 +54,52 @@ namespace DataAccess.Concrete.EntityFramework
                               on car.BrandId equals brand.Id
                               join col in context.Colors
                               on car.ColorId equals col.Id
+                              join carImage in context.CarImages
+                              on car.Id equals carImage.CarId
                               select new CarDetailDto
                               {
-                                  Id = brand.Id,
-                                  CarName = brand.Name,
+                                  Id = car.Id,
+                                  CarName = car.CarName,
                                   BrandName = brand.Name,
+                                  BrandId = brand.Id,
                                   ColorName = col.Name,
-                                  DailyPrice = car.DailyPrice
+                                  ColorId = col.Id,
+                                  DailyPrice = car.DailyPrice,
+                                  ModelYear = car.ModelYear,
+                                  Description = car.Description,
+                                  ImagePath = carImage.ImagePath
 
                               }).Where(filter).ToList();
+
+                return result;
+            }
+        }
+        public CarDetailDto GetCarDetail(Expression<Func<CarDetailDto, bool>> filter = null)
+        {
+            using (CarContext context = new CarContext())
+            {
+                // CarName, BrandName, ColorName, DailyPrice
+                var result = (from car in context.Cars.Cast<Car>()
+                              join brand in context.Brands
+                              on car.BrandId equals brand.Id
+                              join col in context.Colors
+                              on car.ColorId equals col.Id
+                              join carImage in context.CarImages
+                              on car.Id equals carImage.CarId
+                              select new CarDetailDto
+                              {
+                                  Id = car.Id,
+                                  CarName = car.CarName,
+                                  BrandName = brand.Name,
+                                  BrandId = brand.Id,
+                                  ColorName = col.Name,
+                                  ColorId = col.Id,
+                                  DailyPrice = car.DailyPrice,
+                                  ModelYear = car.ModelYear,
+                                  Description = car.Description,
+                                  ImagePath = carImage.ImagePath
+
+                              }).FirstOrDefault(filter);
 
                 return result;
             }

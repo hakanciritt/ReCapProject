@@ -5,6 +5,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="images\13c4abe4-17d2-434b-9e63-eea42dd8ac50.jpg" />
+    <None Remove="images\default.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="images\13c4abe4-17d2-434b-9e63-eea42dd8ac50.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="images\default.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.12" />
   </ItemGroup>
 
