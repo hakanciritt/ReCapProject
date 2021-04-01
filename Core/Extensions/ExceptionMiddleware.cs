@@ -16,6 +16,7 @@ namespace Core.Extensions
         public ExceptionMiddleware(RequestDelegate next)
         {
             _next = next;
+
         }
 
         public async Task InvokeAsync(HttpContext httpContext)

@@ -15,6 +15,7 @@ namespace Core.Extensions
         {
             return JsonConvert.SerializeObject(this);
         }
+
     }
     public class ValidationErrorDetails : ErrorDetails
     {
