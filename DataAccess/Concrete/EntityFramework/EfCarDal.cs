@@ -36,7 +36,6 @@ namespace DataAccess.Concrete.EntityFramework
                                   ModelYear = car.ModelYear,
                                   Description = car.Description,
                                   ImagePath = carImage.ImagePath
-
                               }).ToList();
 
                 return result;
@@ -68,7 +67,6 @@ namespace DataAccess.Concrete.EntityFramework
                                   ModelYear = car.ModelYear,
                                   Description = car.Description,
                                   ImagePath = carImage.ImagePath
-
                               }).Where(filter).ToList();
 
                 return result;
@@ -98,7 +96,6 @@ namespace DataAccess.Concrete.EntityFramework
                                   ModelYear = car.ModelYear,
                                   Description = car.Description,
                                   ImagePath = carImage.ImagePath
-
                               }).FirstOrDefault(filter);
 
                 return result;

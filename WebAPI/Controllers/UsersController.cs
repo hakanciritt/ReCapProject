@@ -44,7 +44,17 @@ namespace WebAPI.Controllers
         public IActionResult GetById(string email)
         {
             var result = _userService.GetByMail(email);
-            if (result.Success)
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpGet("getbymail")]
+        public IActionResult GetByMail(string email)
+        {
+            var result = _userService.GetByMail(email);
+            if (result != null)
             {
                 return Ok(result);
             }

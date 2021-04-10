@@ -27,7 +27,7 @@ namespace WebAPI.Controllers
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            
+
             var result = _carImageService.GetAll();
             if (result.Success)
             {
@@ -35,10 +35,10 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-        [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        [HttpGet("getbycarid")]
+        public IActionResult GetByCarId(int id)
         {
-            var result = _carImageService.GetById(id);
+            var result = _carImageService.GetByCarId(id);
             if (result.Success)
             {
                 return Ok(result);
